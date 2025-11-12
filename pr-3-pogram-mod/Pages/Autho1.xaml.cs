@@ -40,6 +40,11 @@ namespace pr_3_pogram_mod.Pages
         private void btnEnterGuest_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new Client(null, null));
+            txtBoxCaptha.Clear();
+            txtBlockCaptha.Text = "Капча";
+            passwordBox.Clear();
+            txtLogin.Clear();
+            capthaPanel.Visibility = Visibility.Hidden;
         }
 
         private void GenerateCapctcha()
@@ -64,7 +69,6 @@ namespace pr_3_pogram_mod.Pages
             
             if (click == 1)
             {
-                
                 if (user != null)
                 {
                     var user_role = bd.user_roles.Where(x => user.role_id == x.id).FirstOrDefault();
@@ -77,6 +81,7 @@ namespace pr_3_pogram_mod.Pages
                     GenerateCapctcha();
                     passwordBox.Clear();
                 }
+                txtLogin.Clear();
             }
             else if (click > 1)
             {
@@ -85,10 +90,16 @@ namespace pr_3_pogram_mod.Pages
                     var user_role = bd.user_roles.Where(x => user.role_id == x.id).FirstOrDefault();
                     MessageBox.Show("Вы вошли под: " + user_role.role).ToString();
                     LoadPage(user_role.role, user);
+                    capthaPanel.Visibility = Visibility.Hidden;
+                    txtBoxCaptha.Clear();
                 }
                 else
                 {
                     MessageBox.Show("Введите данные заново!");
+                    GenerateCapctcha();
+                    passwordBox.Clear();
+                    txtBoxCaptha.Clear();
+
                 }
             }
         }
